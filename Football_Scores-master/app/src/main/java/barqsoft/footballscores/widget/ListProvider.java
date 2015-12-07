@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
@@ -65,16 +64,15 @@ public class ListProvider implements RemoteViewsFactory {
 	@Override
 	public RemoteViews getViewAt(int position) {
 		final RemoteViews remoteView = new RemoteViews(
-				context.getPackageName(), R.layout.scores_list_item);
+				context.getPackageName(), R.layout.widget_scores_list_item);
 		ListItem listItem = listItemList.get(position);
 
 		remoteView.setTextViewText(R.id.data_textview, listItem.data_textview);
 		remoteView.setTextViewText(R.id.away_name, listItem.away_name);
-        remoteView.setImageViewResource(R.id.away_crest, Utilies.getTeamCrestByTeamName(listItem.away_crest));
-        remoteView.setImageViewResource(R.id.home_crest, Utilies.getTeamCrestByTeamName(listItem.home_crest));
+        remoteView.setImageViewResource(R.id.away_crest, Utilies.getTeamCrestByTeamName(listItem.away_name));
+        remoteView.setImageViewResource(R.id.home_crest, Utilies.getTeamCrestByTeamName(listItem.home_name));
 		remoteView.setTextViewText(R.id.home_name, listItem.home_name);
 		remoteView.setTextViewText(R.id.score_textview, listItem.score_textview);
-		Log.i("AAAA", String.valueOf(remoteView.getLayoutId()));
 		return remoteView;
 	}
 	

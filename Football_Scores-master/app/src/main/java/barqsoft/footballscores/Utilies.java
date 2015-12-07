@@ -1,5 +1,7 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
@@ -19,24 +21,25 @@ public class Utilies
     public static final int Bundesliga3 = 403;
     public static final int EREDIVISIE = 404;
 
-    public static String getLeague(int league_num)
+    public static String getLeague(int league_num,Context context)
     {
         switch (league_num)
         {
-            case BUNDESLIGA1 : return "BUNDESLIGA 1";
-            case BUNDESLIGA2 : return "BUNDESLIGA 2";
-            case LIGUE1 : return "LIGUE 1";
-            case LIGUE2 : return "LIGUE 2";
-            case PREMIER_LEAGUE : return "PREMIER LEAGUE";
-            case PRIMERA_DIVISION : return "PRIMERA_DIVISION";
-            case SEGUNDA_DIVISION : return "SEGUNDA_DIVISION";
-            case SERIE_A : return "SERIE_A";
-            case PRIMERA_LIGA : return "PRIMERA_LIGA";
-            case Bundesliga3 : return "BUNDESLIGA 3";
-            case EREDIVISIE : return "EREDIVISIE";
+            case BUNDESLIGA1 : return context.getString(R.string.BUNDESLIGA1);
+            case BUNDESLIGA2 : return context.getString(R.string.BUNDESLIGA2);
+            case LIGUE1 : return context.getString(R.string.LIGUE1);
+            case LIGUE2 : return context.getString(R.string.LIGUE2);
+            case PREMIER_LEAGUE : return context.getString(R.string.PREMIERLEAGUE);
+            case PRIMERA_DIVISION : return context.getString(R.string.PRIMERADIVISION);
+            case SEGUNDA_DIVISION : return context.getString(R.string.SEGUNDADIVISION);
+            case SERIE_A : return context.getString(R.string.SERIEA);
+            case PRIMERA_LIGA : return context.getString(R.string.PRIMERALIGA);
+            case Bundesliga3 : return context.getString(R.string.BUNDESLIGA3);
+            case EREDIVISIE : return context.getString(R.string.EREDIVISIE);
             default: return "Not known League Please report";
         }
     }
+
     public static String getMatchDay(int match_day,int league_num)
     {
         if(league_num == CHAMPIONS_LEAGUE)

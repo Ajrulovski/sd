@@ -18,9 +18,9 @@ import barqsoft.footballscores.scoresAdapter;
 
 public class RemoteFetchService extends Service {
     public static final String LOG_TAG = "RemoteFetchServiceG";
-	private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     public scoresAdapter mAdapter;
-	public static ArrayList<ListItem> listItemList;
+    public static ArrayList<ListItem> listItemList;
 
     private static final String[] NOTIFY_SCORES = new String[] {
             DatabaseContract.scores_table.HOME_COL,
@@ -33,29 +33,29 @@ public class RemoteFetchService extends Service {
             DatabaseContract.scores_table.TIME_COL
     };
 
-	@Override
-	public IBinder onBind(Intent arg0) {
-		return null;
-	}
+    @Override
+    public IBinder onBind(Intent arg0) {
+        return null;
+    }
 
-	/*
-	 * Retrieve appwidget id from intent it is needed to update widget later
-	 * initialize our AQuery class
-	 */
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID))
-			appWidgetId = intent.getIntExtra(
-					AppWidgetManager.EXTRA_APPWIDGET_ID,
-					AppWidgetManager.INVALID_APPWIDGET_ID);
+    /*
+     * Retrieve appwidget id from intent it is needed to update widget later
+     * initialize our AQuery class
+     */
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent.hasExtra(AppWidgetManager.EXTRA_APPWIDGET_ID))
+            appWidgetId = intent.getIntExtra(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateandTime = sdf.format(new Date());
 
         //getData("2015-12-04");
         getData(currentDateandTime);
-		return super.onStartCommand(intent, flags, startId);
-	}
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     private void getData (String timeFrame)
     {
@@ -68,12 +68,12 @@ public class RemoteFetchService extends Service {
 
         for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
             // iterate and build list data
-            String awayname = cursor.getString(0);
-            String homename = cursor.getString(1);
+            String homename = cursor.getString(0);
+            String awayname = cursor.getString(1);
             String awaygoals = cursor.getString(3);
             String homegoals = cursor.getString(5);
             int leaguenum = Integer.valueOf(cursor.getString(2));
-            String league = Utilies.getLeague(leaguenum);
+            String league = Utilies.getLeague(leaguenum,getApplicationContext());
             String matchday = Utilies.getMatchDay(Integer.valueOf(cursor.getString(6)), leaguenum);
             String datatextcontent = league+" "+matchday+" "+cursor.getString(7);
 
@@ -83,9 +83,10 @@ public class RemoteFetchService extends Service {
             listItem.home_name = homename;
             listItem.score_textview = Utilies.getScores(Integer.valueOf(homegoals),Integer.valueOf(awaygoals));
             listItemList.add(listItem);
-            populateWidget();
+            //populateWidget();
         }
         //manualList();
+        populateWidget();
         cursor.close();
     }
 
@@ -103,19 +104,18 @@ public class RemoteFetchService extends Service {
 //        populateWidget();
 //    }
 
-	/**
-	 * Method which sends broadcast to WidgetProvider
-	 * so that widget is notified to do necessary action
-	 * and here action == WidgetProvider.DATA_FETCHED
-	 */
-	private void populateWidget() {
+    /**
+     * Method which sends broadcast to WidgetProvider
+     * so that widget is notified to do necessary action
+     * and here action == WidgetProvider.DATA_FETCHED
+     */
+    private void populateWidget() {
 
-		Intent widgetUpdateIntent = new Intent();
-		widgetUpdateIntent.setAction(WidgetProvider.DATA_FETCHED);
-		widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-				appWidgetId);
-		sendBroadcast(widgetUpdateIntent);
+        Intent widgetUpdateIntent = new Intent();
+        widgetUpdateIntent.setAction(WidgetProvider.DATA_FETCHED);
+        widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        sendBroadcast(widgetUpdateIntent);
 
-		this.stopSelf();
-	}
+        this.stopSelf();
+    }
 }

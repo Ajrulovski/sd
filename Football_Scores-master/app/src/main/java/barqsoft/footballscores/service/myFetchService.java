@@ -139,6 +139,24 @@ public class myFetchService extends IntentService
         //JSON data
         // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
         // be updated. Feel free to use the codes
+
+//        try {
+//            File myFile = new File("/sdcard/mysdfile.txt");
+//            myFile.createNewFile();
+//            FileOutputStream fOut = new FileOutputStream(myFile);
+//            OutputStreamWriter myOutWriter =
+//                    new OutputStreamWriter(fOut);
+//            myOutWriter.append(JSONdata);
+//            myOutWriter.close();
+//            fOut.close();
+//            Toast.makeText(getBaseContext(),
+//                    "Done writing SD 'mysdfile.txt'",
+//                    Toast.LENGTH_SHORT).show();
+//        } catch (Exception e) {
+//            Toast.makeText(getBaseContext(), e.getMessage(),
+//                    Toast.LENGTH_SHORT).show();
+//        }
+
         final String BUNDESLIGA1 = "394";
         final String BUNDESLIGA2 = "395";
         final String LIGUE1 = "396";
